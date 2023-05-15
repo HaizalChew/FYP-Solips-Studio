@@ -12,11 +12,12 @@ public class EnemyMovementAI : MonoBehaviour
 
     [Header("Values")]
     [SerializeField] private float maxAgroDistance;
+    [SerializeField] private float fieldOfViewAngle;
 
     private void Update()
     {
         // Chase player if get too close to enemy
-        if (Vector3.Distance(transform.position, player.position) < maxAgroDistance)
+        if (Vector3.Distance(transform.position, player.position) < maxAgroDistance && IsInFieldOfView())
         {
             // chase player
             agent.SetDestination(player.position);
@@ -33,4 +34,16 @@ public class EnemyMovementAI : MonoBehaviour
         }
     }
 
+    private bool IsInFieldOfView()
+    {
+        Vector3 dir = player.position - transform.position;
+        if (Mathf.Abs(Vector3.Angle(transform.forward, dir)) < fieldOfViewAngle)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }    
+    }
 }

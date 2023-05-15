@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 923686b01d4edb8479b844a3fb9df1d0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - skinnedMesh: {instanceID: 0}
+  - VFXGraph: {instanceID: 0}
+  - dissolveMat: {fileID: 2100000, guid: c4723ccc2fd3dbf43b0e55e4bdfeb418, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

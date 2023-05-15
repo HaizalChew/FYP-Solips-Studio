@@ -14,7 +14,11 @@ public class Health : MonoBehaviour
     private void Start()
     {
         health = maxHealth;
-        animator = GetComponent<Animator>();
+        if (this.GetComponent<Animator>() != null)
+        {
+            animator = GetComponent<Animator>();
+        }
+        
     }
 
     private void Update()
@@ -38,7 +42,12 @@ public class Health : MonoBehaviour
     public void TriggerDeath()
     {
         isDead = true;
-        animator.SetBool("IsDead", true);
+
+        if (animator != null)
+        {
+            animator.SetBool("IsDead", true);
+        }
+        
     }
 
 }
