@@ -12,10 +12,11 @@ public class EnemyCollisionDetection : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        
-        if (enemyCombatAI.isBasicAttacking && other.gameObject.tag == "Player")
+
+        if (enemyCombatAI.isBasicAttacking && other.gameObject.tag == "Player" && enemyCombatAI.colliderNameReference == gameObject.name)
         {
-            Debug.Log("Hit " + other.transform.root.name);
+            Debug.Log("Hit " + other.transform.root.gameObject.name + " With " + gameObject.name);
+
             if (!enemyCombatAI.hitEnemyColliders.Contains(other.transform.root.gameObject))
             {
                 enemyCombatAI.hitEnemyColliders.Add(other.transform.root.gameObject);

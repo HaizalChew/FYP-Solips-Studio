@@ -23,4 +23,15 @@ public class EnemyScriptManager : MonoBehaviour
             enemyMovementAI.enabled = false;
         }
     }
+
+    public void DisableColliders()
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.GetComponent<Collider>() != null)
+            {
+                Destroy(child.GetComponent<Collider>());
+            }
+        }
+    }
 }

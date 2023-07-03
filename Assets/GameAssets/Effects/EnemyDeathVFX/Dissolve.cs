@@ -7,13 +7,17 @@ public class Dissolve : MonoBehaviour
 {
     [SerializeField] private Health health;
     [SerializeField] private Material dissolveMat;
-    public SkinnedMeshRenderer skinnedMesh;
-    public VisualEffect VFXGraph;
-    public float dissolveRate = 0.5f;
+    [SerializeField] private Transform rootBoneNode;
+    [SerializeField] private SkinnedMeshRenderer skinnedMesh;
+    [SerializeField] private GameObject DissolveVFXPrefab;
+
+    [SerializeField] float dissolveRate = 0.5f;
     [SerializeField] private float delay;
+    [SerializeField] private bool playDissolveEffect = false;
     //public float RefreshRate = 0.025f;
 
     private Material[] skinnedMaterials;
+    private VisualEffect VFXGraph;
     private float counter = 0;
     private bool isResetMaterials;
     private bool startDissolve;
@@ -52,14 +56,6 @@ public class Dissolve : MonoBehaviour
     //    }
     //}
 
-    private void Start()
-    {
-        if (VFXGraph != null)
-        {
-            
-        }
-    }
-
     private void Update()
     {
 
@@ -76,19 +72,29 @@ public class Dissolve : MonoBehaviour
         //    }
         //}
 
-        if (!isResetMaterials && health.isDead)
+        if (!isResetMaterials && health.isDead || playDissolveEffect)
         {
+            var vfx = Instantiate(DissolveVFXPrefab);
+
+            VFXGraph = vfx.GetComponent<VisualEffect>();
+
             isResetMaterials = true;
+            MyVFXTransformBinder myTransformBinder = VFXGraph.GetComponent<MyVFXTransformBinder>();
+            myTransformBinder.Target = rootBoneNode;
+            VFXGraph.SetSkinnedMeshRenderer("SkinnedMeshRenderer", skinnedMesh);
             Invoke(nameof(ResetMaterial), delay);
         }
 
-        if (health.isDead && startDissolve)
+        if (health.isDead && startDissolve || playDissolveEffect && startDissolve)
         {
             if (skinnedMesh.material.GetFloat("_DissolveAmount") < 1)
             {
                 counter += dissolveRate * Time.deltaTime;
 
-                skinnedMesh.material.SetFloat("_DissolveAmount", counter);
+                foreach (var material in skinnedMesh.materials)
+                {
+                    material.SetFloat("_DissolveAmount", counter);
+                }
             }
 
         }
@@ -97,7 +103,19 @@ public class Dissolve : MonoBehaviour
     private void ResetMaterial()
     {
         VFXGraph.Play();
-        skinnedMesh.material = dissolveMat;
+
+        for (int i = 0; i < skinnedMaterials.Length; i++)
+        {
+            skinnedMaterials[i] = dissolveMat;
+        }
+
+        skinnedMesh.materials = skinnedMaterials;
+
+        foreach (var material in skinnedMesh.materials)
+        {
+            material.SetFloat("_DissolveAmount", 0f);
+        }
+        
         startDissolve = true;
         
     }

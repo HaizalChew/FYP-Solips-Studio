@@ -25,16 +25,11 @@ public class PlayerMovement : MonoBehaviour
     // Animation Variable
     private Vector3 playerVelocity;
     private float timer;
-    private bool isWalking, isRunning, isDodging, canJump = true, canDodge = true;
-
-    private void Start()
-    {
-
-    }
+    private bool isWalking, isRunning, isDodging, canJump = true, canDodge = true, canMove = true;
 
     private void OnEnable()
     {
-        jump.action.performed += ctx => Jump();
+        //jump.action.performed += ctx => Jump();
         run.action.performed += ctx => Run();
         run.action.canceled += ctx => ResetRun();
         dodge.action.performed += ctx => Dodge();
@@ -42,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        jump.action.performed -= ctx => Jump();
+        //jump.action.performed -= ctx => Jump();
         run.action.performed -= ctx => Run();
         run.action.canceled -= ctx => ResetRun();
         dodge.action.performed -= ctx => Dodge();
@@ -68,11 +63,21 @@ public class PlayerMovement : MonoBehaviour
             playerVelocity.y = -1f;
         }
 
-        if (isRunning)
+        playerVelocity.y += gravity * Time.deltaTime;
+        characterController.Move(playerVelocity * Time.deltaTime);
+
+        // Implement running
+        if (movement.action.ReadValue<Vector2>() != Vector2.zero && isRunning)
         {
             moveValue *= runMultiplier;
+            animator.SetBool("IsRunning", true);
+        }
+        else
+        {
+            animator.SetBool("IsRunning", false);
         }
 
+        // Implement dodging
         if (isDodging)
         {
             if (timer >= 0f)
@@ -88,15 +93,15 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        playerVelocity.y += gravity * Time.deltaTime;
-        characterController.Move(playerVelocity * Time.deltaTime);
+        // check if animation can allow the player to move inbetween
+        canMove = !animator.GetCurrentAnimatorStateInfo(0).IsTag("Unmove");
 
-
-        if (isGrounded && !isDodging)
+        // controls player movement
+        if (isGrounded && !isDodging && canMove)
         {
             characterController.Move(moveValue * Time.deltaTime * moveSpeed);
         }
-        else if (!isDodging)
+        else if (!isDodging && canMove)
         {
             characterController.Move(moveValue * Time.deltaTime * moveSpeed * airMultiplier);
         }
@@ -112,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         animator.SetBool("IsWalking", isWalking);
-        animator.SetBool("IsRunning", isRunning);
+        
     }
 
     private void GroundCheck()
@@ -150,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
             canDodge = false;
 
             // animation controls
-            animator.SetTrigger("IsDodge");
+            animator.SetTrigger("DoDodge");
 
             // dodge function
             isDodging = true;
