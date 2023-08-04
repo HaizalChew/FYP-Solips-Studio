@@ -9,12 +9,13 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject iceShardObj;
     [SerializeField] private Transform shootingPoint;
+    [SerializeField] private Stamina staminaScpt;
 
     [Header("Variables")]
     [SerializeField] private InputActionReference basicAttack;
     [SerializeField] private InputActionReference equipWeapon, aimDownSight;
     [SerializeField] private float basicAtkCooldown;
-    [SerializeField] private int basicAtkDamage;
+    [SerializeField] private int basicAtkDamage, minimumStamina = 20;
     [SerializeField] private ThirdPersonCam thirdPersonCam;
 
     [Header("LockOn")]
@@ -50,17 +51,24 @@ public class PlayerAttack : MonoBehaviour
                 if (obj.GetComponent<Health>() != null)
                 {
                     Health health = obj.GetComponent<Health>();
-                    EnemyCombatAI enemyCombatScript = obj.GetComponent<EnemyCombatAI>();
 
-                    if (enemyCombatScript.nullDamageFromShield == true)
+                    if (obj.name != "Aldric")
                     {
-                        health.TakeDamage(0);
+                        EnemyCombatAI enemyCombatScript = obj.GetComponent<EnemyCombatAI>();
+
+                        if (enemyCombatScript.nullDamageFromShield == true)
+                        {
+                            health.TakeDamage(0);
+                        }
+                        else
+                        {
+                            health.TakeDamage(basicAtkDamage + Random.Range(-5, 15));
+                        }
                     }
                     else
                     {
-                        health.TakeDamage(basicAtkDamage);
+                        health.TakeDamage(basicAtkDamage + Random.Range(-5, 15));
                     }
-                    
                 }
             }
 
@@ -83,7 +91,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 animator.SetTrigger("DoMagicAttack");
             }
-            else
+            else if (!(staminaScpt.stamina < minimumStamina))
             {
                 animator.SetTrigger("DoAttack");
             }
@@ -104,6 +112,11 @@ public class PlayerAttack : MonoBehaviour
         isInAttackState = !isInAttackState;
         animator.SetBool("IsAttackState", isInAttackState);
 
+    }
+
+    public void PlayTakeDamageAnim()
+    {
+        animator.Play("React");
     }
 
     // Used with AnimationEvents; Do not change the names unless event names are changed

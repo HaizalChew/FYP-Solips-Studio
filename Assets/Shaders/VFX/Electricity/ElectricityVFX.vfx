@@ -24,31 +24,13 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614555}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614556}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661614558}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614580}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614583}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614585}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614589}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614623}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614591}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614593}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614613}
@@ -86,30 +68,18 @@ MonoBehaviour:
       x: 2328
       y: -499
       width: 474
-      height: 1691
+      height: 2160
     contents:
     - model: {fileID: 8926484042661614700}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614702}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661614704}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 0}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614730}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614733}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614735}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 0}
       id: 0
       isStickyNote: 0
   stickyNoteInfos: []
@@ -119,7 +89,7 @@ MonoBehaviour:
     x: 188
     y: -499
     width: 2614
-    height: 2027
+    height: 2160
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4293,7 +4263,7 @@ MonoBehaviour:
   m_Children:
   - {fileID: 8926484042661614789}
   - {fileID: 8926484042661614773}
-  m_UIPosition: {x: 2353, y: 309}
+  m_UIPosition: {x: 2353, y: 425}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
@@ -4333,7 +4303,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614745}
   - {fileID: 8926484042661614758}
   - {fileID: 8926484042661614739}
-  m_UIPosition: {x: 2353, y: 746}
+  m_UIPosition: {x: 2353, y: 877}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:

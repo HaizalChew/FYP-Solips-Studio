@@ -13,7 +13,7 @@ public class Health : MonoBehaviour
 
     public bool isDead = false, isHit = false;
 
-    [SerializeField] private UnityEvent OnDeath, OnTakeDamage;
+    public UnityEvent OnDeath, OnTakeDamage;
 
     private void Start()
     {
@@ -40,7 +40,7 @@ public class Health : MonoBehaviour
         storeDamage = damage;
         isHit = true;
 
-        if (animator != null)
+        if (animator != null && health > 0)
         {
             OnTakeDamage.Invoke();
         }
@@ -60,6 +60,18 @@ public class Health : MonoBehaviour
             animator.SetBool("IsDead", true);
         }
         
+    }
+
+    public void DestroyThisGameobject(int delay)
+    {
+        Invoke(nameof(Destroying), delay);
+
+        
+    }
+
+    private void Destroying()
+    {
+        Destroy(gameObject);
     }
 
 }

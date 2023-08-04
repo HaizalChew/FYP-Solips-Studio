@@ -9,7 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform orientation;
     [SerializeField] private CharacterController characterController;
     [SerializeField] private InputActionReference movement, jump, run, dodge;
-
+    [SerializeField] private Stamina staminaScpt;
+    [SerializeField] private int minimumStamina = 20;
     [SerializeField] private float moveSpeed, jumpForce = 5f, jumpCooldown = 2f, airMultiplier = 0.4f, gravity = -9.18f, runMultiplier = 1.5f, dodgeCooldown = 2f, dodgeSpeedMultiplier = 4f;
     
 
@@ -25,7 +26,8 @@ public class PlayerMovement : MonoBehaviour
     // Animation Variable
     private Vector3 playerVelocity;
     private float timer;
-    private bool isWalking, isRunning, isDodging, canJump = true, canDodge = true, canMove = true;
+    private bool isWalking, isRunning, canJump = true, canDodge = true, canMove = true;
+    public bool isDodging;
 
     private void OnEnable()
     {
@@ -117,6 +119,17 @@ public class PlayerMovement : MonoBehaviour
         }
 
         animator.SetBool("IsWalking", isWalking);
+
+        // control walking animation speed
+        if (!isRunning)
+        {
+            animator.SetFloat("PlayerSpeedNormalised", characterController.velocity.magnitude / moveSpeed);
+        }
+        else
+        {
+            animator.SetFloat("PlayerSpeedNormalised", characterController.velocity.magnitude / (moveSpeed * runMultiplier));
+        }
+        
         
     }
 
@@ -150,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Dodge()
     {
-        if (isGrounded && canDodge)
+        if (isGrounded && canDodge && !(staminaScpt.stamina < minimumStamina))
         {
             canDodge = false;
 

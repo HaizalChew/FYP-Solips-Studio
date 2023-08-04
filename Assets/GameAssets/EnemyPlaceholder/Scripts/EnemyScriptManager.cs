@@ -8,6 +8,8 @@ public class EnemyScriptManager : MonoBehaviour
     [SerializeField] private EnemyMovementAI enemyMovementAI;
     [SerializeField] private Health health;
 
+    private Collider[] allColliders;
+
     private void Start()
     {
         enemyCombatAI = GetComponent<EnemyCombatAI>();
@@ -26,12 +28,11 @@ public class EnemyScriptManager : MonoBehaviour
 
     public void DisableColliders()
     {
-        foreach (Transform child in transform)
+        allColliders = GetComponentsInChildren<Collider>();
+
+        foreach (Collider child in allColliders)
         {
-            if (child.GetComponent<Collider>() != null)
-            {
-                Destroy(child.GetComponent<Collider>());
-            }
+            child.GetComponent<Collider>().enabled = false;
         }
     }
 }

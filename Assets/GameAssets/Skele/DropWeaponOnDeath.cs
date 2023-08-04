@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DropWeaponOnDeath : MonoBehaviour
 {
+    [SerializeField] private float destroyDelay = 10f;
     public void DropWeapon()
     {
         transform.parent = null;
@@ -24,5 +25,12 @@ public class DropWeaponOnDeath : MonoBehaviour
         {
             gameObject.GetComponent<Collider>().isTrigger = false;
         }
-    }   
+
+        Invoke(nameof(DestroyOverTime), destroyDelay);
+    }
+    
+    void DestroyOverTime()
+    {
+        Destroy(gameObject);
+    }
 }

@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Enemy
   - UICamera
+  - PlayerGlowVFX
+  - AldricGlowVFX
+  - WerewolfGlowVFX
+  - StunVFX
   layers:
   - Default
   - TransparentFX
@@ -17,9 +21,9 @@ TagManager:
   - Player
   - Enemy
   - NonInteractables
-  - PlayerSpells
-  - 
-  - 
+  - Spells
+  - Distort
+  - Meteor
   - 
   - 
   - 

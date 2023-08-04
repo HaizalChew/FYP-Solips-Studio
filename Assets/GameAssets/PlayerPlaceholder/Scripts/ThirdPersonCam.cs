@@ -43,6 +43,12 @@ public class ThirdPersonCam : MonoBehaviour
             combatCm.m_XAxis.Value = thirdPersonCm.m_XAxis.Value;
         }
 
+        if (aimDownSight.action.WasReleasedThisFrame())
+        {
+            thirdPersonCm.m_YAxis.Value = combatCm.m_YAxis.Value;
+            thirdPersonCm.m_XAxis.Value = combatCm.m_XAxis.Value;
+        }
+
         // check if player is trying to aim
         if (aimDownSight.action.IsPressed())
         {
@@ -55,7 +61,7 @@ public class ThirdPersonCam : MonoBehaviour
         
 
         // rotate orientation
-        Vector3 viewDir = playerObj.position - new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 viewDir = playerObj.position - new Vector3(transform.position.x, transform.position.y, transform.position.z);
         orientation.forward = viewDir.normalized;
 
         if (currentCameraStyle == CameraStyle.Basic)

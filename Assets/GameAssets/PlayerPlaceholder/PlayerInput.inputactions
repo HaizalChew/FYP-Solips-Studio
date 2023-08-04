@@ -33,15 +33,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "73fb3e05-08e9-4529-aaae-69521e449364",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Run",
                     "type": "Button",
                     "id": "c0f5b9fc-ba2d-4f1d-91d4-14bbd00bf79b",
@@ -72,6 +63,15 @@
                     "name": "AimDownSight",
                     "type": "Button",
                     "id": "f5cc6bea-57cc-4830-a3ea-4f003cdae6dd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "4b5b55db-bbc3-4fcd-b842-3296eaae864d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -301,17 +301,6 @@
                 },
                 {
                     "name": "",
-                    "id": "ec06ba75-192c-4381-95ce-7af84f249184",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "a111a5d0-1e9f-4fb4-b645-c74fadfca96d",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -324,7 +313,7 @@
                 {
                     "name": "",
                     "id": "2ea4c780-3b4b-47eb-9897-ec2e01336406",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -351,6 +340,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "AimDownSight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "844874b6-155b-4599-9a72-414dbde44c5f",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3875177472913513059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4635074589030793785}
+  m_Layer: 0
+  m_Name: Piano Set
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4635074589030793785
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3875177472913513059}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -86.55516, y: 2.8580005, z: -5.2014446}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3258931340269776000}
+  - {fileID: 7136383152895228840}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &7236352776142605695
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4635074589030793785}
+    m_Modifications:
+    - target: {fileID: 532891677581555415, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 532891677581555415, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.4448395
+      objectReference: {fileID: 0}
+    - target: {fileID: 532891677581555415, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.7580006
+      objectReference: {fileID: 0}
+    - target: {fileID: 532891677581555415, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.2014446
+      objectReference: {fileID: 0}
+    - target: {fileID: 532891677581555415, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 532891677581555415, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532891677581555415, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532891677581555415, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532891677581555415, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532891677581555415, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532891677581555415, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 877892435495283821, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+      propertyPath: m_Name
+      value: G_piano
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+--- !u!4 &7136383152895228840 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 532891677581555415, guid: 0681db4320d9c454c8f9de2d3f117175, type: 3}
+  m_PrefabInstance: {fileID: 7236352776142605695}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8368268617590945753
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4635074589030793785}
+    m_Modifications:
+    - target: {fileID: 5932317807824077283, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+      propertyPath: m_Name
+      value: G_piano_chair
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419884778151238489, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419884778151238489, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.0108414
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419884778151238489, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.2120004
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419884778151238489, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.2504444
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419884778151238489, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419884778151238489, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419884778151238489, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419884778151238489, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419884778151238489, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419884778151238489, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6419884778151238489, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+--- !u!4 &3258931340269776000 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6419884778151238489, guid: c1543213ed40ab04c94e80b010231a16, type: 3}
+  m_PrefabInstance: {fileID: 8368268617590945753}
+  m_PrefabAsset: {fileID: 0}

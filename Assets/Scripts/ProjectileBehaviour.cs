@@ -8,9 +8,23 @@ public class ProjectileBehaviour : MonoBehaviour
     [SerializeField] public GameObject target;
 
     [SerializeField] private float rotateSpeed = 95f;
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private int damage = 10;
+    [SerializeField] public float speed = 5f;
+    [SerializeField] public int damage = 10;
 
+    [SerializeField] private ProjectileType projectileType;
+    [SerializeField] private TargetType targetType;
+
+    private enum ProjectileType
+    {
+        Direct,
+        Homing
+    }
+
+    private enum TargetType
+    {
+        DamageEnemies,
+        DamagePlayer
+    }
 
     private void Start()
     {
@@ -24,11 +38,13 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         rb.velocity = transform.forward * speed;
 
-        if (target != null)
+        if (projectileType == ProjectileType.Homing)
         {
-            RotateRocket();
+            if (target != null)
+            {
+                RotateRocket();
+            }
         }
-        
     }
 
     private void RotateRocket()
@@ -45,11 +61,35 @@ public class ProjectileBehaviour : MonoBehaviour
         Quaternion rotation = Quaternion.FromToRotation(Vector3.up, contact.normal);
         Vector3 position = contact.point;
         //Instantiate(explosionPrefab, position, rotation);
-        Destroy(gameObject);
-
-        if (contact.otherCollider.tag == "Enemy")
+        
+        
+        switch (targetType)
         {
-            contact.otherCollider.transform.root.gameObject.GetComponent<Health>().TakeDamage(damage);
+            case TargetType.DamageEnemies:
+                if (contact.otherCollider.tag == "Enemy")
+                {
+                    contact.otherCollider.transform.root.gameObject.GetComponent<Health>().TakeDamage(damage);
+                    Destroy(gameObject);
+                }
+                else if (contact.otherCollider.gameObject.layer == 6)
+                {
+                    Destroy(gameObject);
+                }
+                break;
+
+            case TargetType.DamagePlayer:
+                if (contact.otherCollider.tag == "Player")
+                {
+                    contact.otherCollider.transform.root.gameObject.GetComponent<Health>().TakeDamage(damage);
+                    Destroy(gameObject);
+                }
+                else if (contact.otherCollider.gameObject.layer == 6)
+                {
+                    Destroy(gameObject);
+                }
+                break;
+
         }
+        
     }
 }

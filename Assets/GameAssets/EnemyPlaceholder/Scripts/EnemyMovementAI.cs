@@ -8,7 +8,9 @@ public class EnemyMovementAI : MonoBehaviour
     [Header("References")]
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Animator animator;
-    [SerializeField] private Transform player;
+    [SerializeField] public Transform player;
+    [SerializeField] private GameObject EnemyHUD;
+    [SerializeField] private LayerMask layerMask;
 
     [Header("Values")]
     [SerializeField] private float maxAgroDistance;
@@ -22,7 +24,11 @@ public class EnemyMovementAI : MonoBehaviour
 
     private void Start()
     {
-        speed = agent.speed;
+        if (agent != null)
+        {
+            speed = agent.speed;
+        }
+        
     }
 
     private void Update()
@@ -30,12 +36,47 @@ public class EnemyMovementAI : MonoBehaviour
         //find direction from player to enemy
         dir = player.position - transform.position;
 
-        // Chase player if get too close to enemy
-        if (Vector3.Distance(transform.position, player.position) < maxAgroDistance && IsInFieldOfView() && canMove)
+        if (enemyType != EnemyTypes.Spirit)
         {
-            // chase player
-            agent.SetDestination(player.position);
+            NonFloatingEnemy();
+        }
+        else
+        {
+            AutoRotate();
+        }
 
+        
+
+        canMove = !animator.GetCurrentAnimatorStateInfo(0).IsTag("Unmove") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Block") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("UnmoveNohead");
+    }
+
+    private void NonFloatingEnemy()
+    {
+        RaycastHit hit;
+
+        // Chase player if get too close to enemy
+        if (Vector3.Distance(transform.position, player.position) < maxAgroDistance && canMove)
+        {
+            agent.isStopped = false;
+
+            if (Physics.Raycast(transform.GetChild(0).position, player.GetChild(0).position - transform.GetChild(0).position, out hit, Mathf.Infinity, layerMask))
+            {
+                if (hit.collider.tag == "Player")
+                {
+                    // Debug Purposes
+                    Debug.DrawRay(transform.GetChild(0).position, player.GetChild(0).position - transform.GetChild(0).position, Color.yellow);
+
+                    // chase player
+                    agent.SetDestination(player.position);
+                }
+            }
+
+            
+
+        }
+        else
+        {
+            agent.isStopped = true;
         }
 
         if (Vector3.Distance(transform.position, player.position) < maxAgroDistance && !IsInFieldOfView() && canMove)
@@ -77,14 +118,23 @@ public class EnemyMovementAI : MonoBehaviour
                             }
                             break;
                     }
-                    
+
                 }
                 else
                 {
                     AutoRotate();
                 }
-            }            
+            }
 
+        }
+
+        if (Vector3.Distance(transform.position, player.position) < maxAgroDistance)
+        {
+            EnemyHUD.SetActive(true);
+        }
+        else
+        {
+            EnemyHUD.SetActive(false);
         }
 
         if (agent.velocity != Vector3.zero)
@@ -95,8 +145,6 @@ public class EnemyMovementAI : MonoBehaviour
         {
             animator.SetBool("IsWalking", false);
         }
-
-        canMove = !animator.GetCurrentAnimatorStateInfo(0).IsTag("Unmove") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Block") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("UnmoveNohead");
     }
 
     public bool IsInFieldOfView()

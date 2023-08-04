@@ -1,32 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.VFX;
 
 //Reference the type of enemy
 public enum EnemyTypes
 {
     Skeleton,
-    Werewolf
-};  
+    SkeletonArcher,
+    Werewolf,
+    Spirit
+};
 
 public class EnemyCombatAI : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Animator animator;
-    [SerializeField] private Transform target;
+    [SerializeField] public Transform target;
     [SerializeField] private Health health;
     [SerializeField] private EnemyMovementAI enemyMovementAi;
+    [SerializeField] private GameObject projectileObj;
+    [SerializeField] private Transform shootingPoint;
+    [SerializeField] private VisualEffect headShockwave;
+    [SerializeField] private SkinnedMeshRenderer wolfSkinMesh;
 
-    [SerializeField] private int basicAtkDamage;
-    [SerializeField] private float basicAtkCooldown, attackDistance;
+    [SerializeField] private int basicAtkDamage = 10;
+    [SerializeField] private float basicAtkCooldown = 10, attackDistance = 10, projectileSpeed = 10, projectileGrowTime = 5, roarAttackStunDuration = 7f, roarDistance = 3f;
 
-    [SerializeField] private bool canAttack = true, canSpecialAttack = false;
+    [Header("Debug")]
+    [SerializeField] private bool canAttack = true;
+    [SerializeField] private bool canSpecialAttack = false;
     [SerializeField] private int randomNum;
 
-    // Blocking variables for skeleton
-    [SerializeField] private float blockDuration, blockCooldown;
+    [SerializeField] private float blockDuration, blockCooldown, timer = 0, normalizedTimer = 0;
+    private GameObject projectileSpawned;
 
-    public bool canBlock = true, isBlocking = false, isBasicAttacking = false, nullDamageFromShield;
+
+    public bool canBlock = true, isBlocking = false, isBasicAttacking = false, playerTakenDamage = false, isSpecialAttacking = false, nullDamageFromShield, isChargingUp = false, isSecondPhase = false;
     public List<GameObject> hitEnemyColliders = new List<GameObject>();
     public string colliderNameReference;
 
@@ -55,23 +65,30 @@ public class EnemyCombatAI : MonoBehaviour
             case EnemyTypes.Werewolf:
                 EnemyWerewolfMoveset();
                 break;
+            case EnemyTypes.Spirit:
+                EnemySpiritMoveset();
+                break;
         }
         
         // Calculate if hit player
-        if (!isBasicAttacking && hitEnemyColliders.Count != 0)
+        if (!playerTakenDamage && hitEnemyColliders.Count != 0)
         {
+            
             foreach (GameObject obj in hitEnemyColliders)
             {
                 if (obj.GetComponent<Health>() != null)
                 {
                     Health health = obj.GetComponent<Health>();
 
-                    health.TakeDamage(basicAtkDamage);
+                    if (!obj.GetComponent<PlayerMovement>().isDodging)
+                    {
+                        health.TakeDamage(basicAtkDamage);
+                    }
+                    
                 }
             }
 
-            hitEnemyColliders.Clear();
-            colliderNameReference = null;
+            playerTakenDamage = true;
         }
     }
 
@@ -167,9 +184,78 @@ public class EnemyCombatAI : MonoBehaviour
             {
                 canAttack = false;
                 canSpecialAttack = false;
-                animator.SetTrigger("DoRoarAttack");
+
+                if (!isSecondPhase)
+                {
+                    animator.SetTrigger("DoRoarAttack");
+                }
+                else
+                {
+                    if (Random.Range(0f, 1f) < 0.5)
+                    {
+                        animator.SetTrigger("DoRoarAttack");
+                    }
+                    else
+                    {
+                        animator.SetTrigger("DoJumpAttack");
+                    }
+                }
+                
 
                 Invoke(nameof(ResetAttack), basicAtkCooldown);
+            }
+        }
+
+        if (Vector3.Distance(transform.position, target.position) <= roarDistance && isSpecialAttacking && !target.GetComponent<Animator>().GetBool("IsStunned"))
+        {
+            target.GetComponent<Animator>().SetBool("IsStunned", true);
+            Invoke(nameof(stopStunPlayer), roarAttackStunDuration);
+        }
+
+        if (health.health <= health.maxHealth / 2 && !isSecondPhase)
+        {
+            isSecondPhase = true;
+            animator.SetTrigger("DoSecondPhase");
+        }
+    }
+
+    private void EnemySpiritMoveset()
+    {
+        shootingPoint.LookAt(target.position);
+                
+        if (Vector3.Distance(transform.position, target.position) <= attackDistance && canAttack && !health.isDead)
+        {
+            if (canAttack)
+            {
+                canAttack = false;
+                isChargingUp = true;
+                timer = 0;
+                normalizedTimer = 0;
+
+                GameObject enemyProjectile = Instantiate(projectileObj, shootingPoint.position, shootingPoint.rotation);
+                enemyProjectile.GetComponent<ProjectileBehaviour>().speed = 0;
+                enemyProjectile.GetComponent<ProjectileBehaviour>().damage = basicAtkDamage;
+                projectileSpawned = enemyProjectile;
+            }    
+        }
+
+        if (isChargingUp)
+        {
+            if (timer < projectileGrowTime)
+            {
+                timer += Time.deltaTime;
+                normalizedTimer = timer / projectileGrowTime;
+
+                projectileSpawned.transform.localScale = Vector3.one * normalizedTimer;
+                projectileSpawned.transform.position = shootingPoint.position;
+                projectileSpawned.transform.rotation = shootingPoint.rotation;
+            }
+            else
+            {
+                projectileSpawned.GetComponent<ProjectileBehaviour>().speed = projectileSpeed;
+                Invoke(nameof(ResetAttack), basicAtkCooldown);
+
+                isChargingUp = false;
             }
         }
     }
@@ -187,6 +273,10 @@ public class EnemyCombatAI : MonoBehaviour
     public void EnemyAttackEnd()
     {
         isBasicAttacking = false;
+        
+        hitEnemyColliders.Clear();
+        colliderNameReference = null;
+        playerTakenDamage = false;
     }
 
     private void Block()
@@ -223,5 +313,48 @@ public class EnemyCombatAI : MonoBehaviour
         }
         
     }
+
+    public void EnemyRoaringStart()
+    {
+        isSpecialAttacking = true;
+        InvokeRepeating(nameof(ShockwaveRepeating), 0, 0.3f);
+    }
+
+    public void EnemyRoaringEnd()
+    {
+        isSpecialAttacking = false;
+        CancelInvoke(nameof(ShockwaveRepeating));
+    }
+
+    private void ShockwaveRepeating()
+    {
+        headShockwave.Play();
+    }
+
+    private IEnumerator ShockwaveRepeatOnTimer(float duration, float refreshRate)
+    {
+        float timer = 0;
+
+        while (timer < duration)
+        {
+            yield return new WaitForSeconds(refreshRate);
+
+            headShockwave.Play();
+            timer += refreshRate;
+        }
+    }
+
+    private void stopStunPlayer()
+    {
+        target.GetComponent<Animator>().SetBool("IsStunned", false);
+    }
+
+    public void EnterSecondPhase()
+    {
+        wolfSkinMesh.materials[2].SetColor("_Emissive_Color", Color.white * 2);
+
+        StartCoroutine(ShockwaveRepeatOnTimer(1.5f, 0.3f));
+    }
+
 }
     

@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/MainMenu.unity
+    guid: e63dac9bdb6d3f342aec01bb9bf17265
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: 1edab9afa5a600d4fa0fcda4ce4237d6
+  - enabled: 1
+    path: Assets/Scenes/EverblossomScene.unity
+    guid: db7116a4eaac7244baab921c040d3162
+  - enabled: 1
+    path: Assets/Scenes/FinalBossShowdownScene.unity
+    guid: f945470d148737a438b9358efd188495
   m_configObjects: {}
